@@ -1,21 +1,17 @@
 import axios from "axios";
 
 function initialState () {
-    const token = localStorage.getItem('token') || ""
     const companiesCount = {};
     const employeesCount = {};
+    const loader = false;
     return {
-        token,
         companiesCount,
-        employeesCount
+        employeesCount,
+        loader
     }
 }
 
 const getters = {
-    token(state)
-    {
-        return state.token
-    },
     companiesCount(state)
     {
         return state.companiesCount
@@ -24,25 +20,29 @@ const getters = {
     {
         return state.employeesCount
     },
+    loader(state)
+    {
+        return state.loader
+    }
 };
 
 const actions = {
-    async getCount(ctx, headers = {})
+    async getCount(ctx)
     {
+        ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
                 url: '/api/admin/dashboard',
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...headers
-                },
             })
                 .then((resp) => {
-                    ctx.commit('setToken', resp.data.token)
+                    ctx.commit('setIsLoad', false)
+                    ctx.commit('setCompaniesCount', resp.data.companiesCount)
+                    ctx.commit('setEmployeesCount', resp.data.employeesCount)
                     resolve(resp)
                 })
                 .catch((error) => {
+                    ctx.commit('setIsLoad', false)
                     reject(error)
                 })
         })
@@ -51,11 +51,6 @@ const actions = {
 };
 
 const mutations = {
-    setToken(state, token)
-    {
-        state.token = token;
-        localStorage.setItem('token', state.token)
-    },
     setCompaniesCount(state, companiesCount)
     {
         state.companiesCount = companiesCount
@@ -64,6 +59,10 @@ const mutations = {
     {
         state.employeesCount = employeesCount
     },
+    setIsLoad(state, loader)
+    {
+        state.loader = loader
+    }
 };
 
 export default {

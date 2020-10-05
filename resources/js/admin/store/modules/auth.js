@@ -53,10 +53,7 @@ const actions = {
 
     async logout(ctx){
         ctx.commit('setIsAuth', false)
-        ctx.commit('setAdmin', '')
-        localStorage.removeItem('adminId')
-        localStorage.removeItem('adminEmail')
-        localStorage.removeItem('adminName')
+        ctx.commit('setToken', null)
     },
 
 

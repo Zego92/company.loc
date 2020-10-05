@@ -52,9 +52,11 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CompanyStoreRequest $request)
+//    public function store(Request $request)
     {
+//        return $request->all();
         $result['success'] = false;
-        $image = $request->image;
+        $image = $request->logo;
         $explode_1 = explode(';', $image);
         $explode_2 = explode('/', $explode_1[0]);
         $imageName = Str::random(12) . '.' . $explode_2[1];
@@ -108,7 +110,7 @@ class CompanyController extends Controller
     {
         $result['success'] = true;
         $company = Company::find($id);
-        $image = $request->image;
+        $image = $request->logo;
         if (isset($image)){
             File::delete(public_path() . '/uploads/logo/' . $company->logo);
             $explode_1 = explode(';', $image);

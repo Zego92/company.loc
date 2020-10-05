@@ -3,8 +3,12 @@ import VueRouter from "vue-router";
 import store from "../store";
 import Login from "../views/Login";
 import Dashboard from "../views/Dashboard";
-import Company from "../views/Company";
-import Employee from "../views/Employee";
+import Companies from "../views/Companies";
+import Company from "../views/components/Company/Company";
+import CompanyInfo from "../views/components/Company/CompanyInfo";
+import CompanyEdit from "../views/components/Company/CompanyEdit";
+
+import Employees from "../views/Employees";
 
 Vue.use(VueRouter);
 
@@ -29,13 +33,42 @@ const routes = [
         path: '/companies',
         name: 'Companies',
         meta:{layout: 'main', title: 'Admin Panel | Companies'},
-        component: Company
+        component: Companies,
+        children: [
+            {
+                path: ':id',
+                name: 'Company',
+                meta:{layout: 'main', title: 'Admin Panel | Companies'},
+                component: Company,
+                props: true,
+                children: [
+                    {
+                        path: '/',
+                        redirect: {name: CompanyInfo}
+                    },
+                    {
+                        path: 'info',
+                        name: 'CompanyInfo',
+                        meta:{layout: 'main', title: 'Admin Panel | Companies'},
+                        component: CompanyInfo,
+                        props: true
+                    },
+                    {
+                        path: 'edit',
+                        name: 'CompanyEdit',
+                        meta:{layout: 'main', title: 'Admin Panel | Companies'},
+                        component: CompanyEdit,
+                        props: true
+                    }
+                ]
+            }
+        ]
     },
     {
         path: '/employees',
         name: 'Employees',
         meta:{layout: 'main', title: 'Admin Panel | Employees'},
-        component: Employee
+        component: Employees
     },
 
 ];

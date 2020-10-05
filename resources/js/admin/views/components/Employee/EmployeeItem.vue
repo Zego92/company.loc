@@ -5,7 +5,7 @@
 <script>
     export default {
         props: [],
-        name: "Company",
+        name: "EmployeeItem",
         data() {
             return {}
         },

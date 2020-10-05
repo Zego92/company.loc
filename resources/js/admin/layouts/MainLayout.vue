@@ -6,8 +6,7 @@
                     <span class="white--text headline">A</span>
                 </v-list-item-avatar>
                 <v-list-item-content>
-<!--                    <v-list-item-title>{{admin.fio}}</v-list-item-title>-->
-<!--                    <v-list-item-subtitle>{{admin.email}}</v-list-item-subtitle>-->
+                    <v-list-item-title>Admin</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list dense>
@@ -25,7 +24,7 @@
             <template v-slot:append>
                 <div class="px-2 pb-2">
                     <v-btn text block @click="onClickLogout">
-                        <v-icon left color="red">mdi-logout</v-icon>Выйти
+                        <v-icon left color="red">mdi-logout</v-icon>LogOut
                     </v-btn>
                 </div>
             </template>
@@ -61,12 +60,12 @@
                     {
                         name: 'Employees',
                         icon: 'mdi-account-multiple',
-                        routerName: 'Users'
+                        routerName: 'Employees'
                     },
                     {
                         name: 'Companies',
-                        icon: 'home-city-outline',
-                        routerName: 'Users'
+                        icon: 'mdi-briefcase',
+                        routerName: 'Companies'
                     },
                 ],
             }

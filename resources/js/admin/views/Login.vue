@@ -99,7 +99,6 @@
                         }, 2000)
                     })
                     .catch((error) => {
-                        console.log(error);
                         this.snackbarData.snackbar = true;
                         this.snackbarData.text = error.response.data.message;
                         this.snackbarData.color = 'red';
