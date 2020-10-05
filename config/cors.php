@@ -23,12 +23,20 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => [
+        'Content-Type',
+        'Authorization',
+    ],
 
     'exposed_headers' => false,
 
-    'max_age' => false,
+    'max_age' => 60 * 60 * 24,
 
     'supports_credentials' => false,
+
+    'forbidden_response' => [
+        'message' => 'Forbidden (cors).',
+        'status' => 403,
+    ],
 
 ];

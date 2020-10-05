@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+Route::group(['middleware' => ['cors', 'json.response'], 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
+    Route::post('/login', 'AuthController@login')->name('login.api');
+    Route::post('/logout', 'AuthController@logout')->name('logout.api');
+    Route::resource('/dashboard', 'DashboardController');
 });
