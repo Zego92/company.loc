@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     {
         $keyWord = $request->search ?? '';
         $result['success'] = true;
-        $employees = Employee::where('first_name', 'LIKE', '%' . $keyWord . '%')
+        $employees = Employee::with('company')->where('first_name', 'LIKE', '%' . $keyWord . '%')
             ->orWhere('last_name', 'LIKE', '%' . $keyWord . '%')
             ->orWhere('phone', 'LIKE', '%' . $keyWord . '%')
             ->paginate(10);

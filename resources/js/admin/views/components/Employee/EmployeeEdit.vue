@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        props: [],
+        props: ['id'],
         name: "EmployeeEdit",
         data() {
             return {}

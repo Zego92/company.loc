@@ -30,7 +30,6 @@
                     <v-progress-circular indeterminate color="primary"></v-progress-circular>
                 </v-overlay>
             </v-col>
-
         </v-row>
     </v-container>
 </template>

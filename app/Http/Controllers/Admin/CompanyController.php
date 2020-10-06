@@ -88,7 +88,7 @@ class CompanyController extends Controller
         $result['success'] = true;
         $company = Company::with('employees')->find($id);
         $result['company'] = $company;
-        return response()->json($company, 200);
+        return response()->json($result, 200);
     }
 
     /**
@@ -109,24 +109,24 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CompanyUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
+//        return $request->all();
         $result['success'] = true;
         $company = Company::find($id);
-        $image = $request->logo;
-        if (isset($image)){
+        if (isset($request->logo)){
+            $image = $request->logo;
             File::delete(public_path() . '/uploads/logo/' . $company->logo);
             $explode_1 = explode(';', $image);
             $explode_2 = explode('/', $explode_1[0]);
             $imageName = Str::random(12) . '.' . $explode_2[1];
             Image::make($image)->resize(100, 100)->save(public_path('/uploads/logo/' . $imageName), 50);
         }
-        $company->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'logo' => $imageName,
-            'website' => $request->website,
-        ]);
+        $company->name = $request->name ?? $company->name;
+        $company->email = $request->email ?? $company->email;
+        $company->logo = $imageName ?? $company->logo;
+        $company->website = $request->website ?? $company->website;
+        $company->save();
         $result['message'] = 'The raw has been update';
         return response()->json($result, 200);
     }

@@ -75,6 +75,7 @@ const actions = {
                 .then((resp) => {
                     ctx.commit('setIsLoad', false)
                     ctx.commit('setEmployees', resp.data.employees)
+                    ctx.commit('setPagination', resp.data.pagination)
                     resolve(resp)
                 })
                 .catch((error) => {

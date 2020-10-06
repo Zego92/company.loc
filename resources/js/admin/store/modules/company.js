@@ -58,7 +58,7 @@ const getters = {
     },
     company(state)
     {
-        state.company = company
+        return state.company
     }
 };
 

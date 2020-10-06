@@ -6,16 +6,49 @@
                 <v-btn color="white" text v-bind="attrs" @click="snackbarData.snackbar = false"><v-icon>mdi-close</v-icon></v-btn>
             </template>
         </v-snackbar>
-        <v-form class="px-4">
-            <v-text-field v-model="companyData.name" type="text" label="Name" clearable counter class="mb-3"/>
-            <v-text-field v-model="companyData.email" type="email" label="Email" clearable counter class="mb-3"/>
-            <v-text-field v-model="companyData.imageName" @click='pickFile' accept="image/*" type="tel" label="Logo" clearable counter class="mb-3"/>
-            <v-text-field v-model="companyData.website" type="text" label="Website" clearable counter class="mb-3"/>
-            <input title="" type="file" style="display: none" ref="image" accept="image/*" @change="onFilePicked">
+        <v-form class="px-4" ref="form">
+            <v-text-field
+                v-model="companyData.name"
+                :placeholder="company.name"
+                type="text"
+                label="Name"
+                clearable
+                counter class="mb-3"/>
+            <v-text-field
+                v-model="companyData.email"
+                :placeholder="company.email"
+                type="email"
+                label="Email"
+                clearable
+                counter
+                class="mb-3"/>
+            <v-text-field
+                v-model="companyData.website"
+                :placeholder="company.website"
+                type="text"
+                label="Website"
+                clearable
+                counter
+                class="mb-3"/>
+            <v-text-field
+                v-model="companyData.imageName"
+                :placeholder="company.logo"
+                @click='pickFile'
+                type="text"
+                label="Logo"
+                clearable
+                counter
+                class="mb-3"/>
+            <input
+                title=""
+                type="file"
+                style="display: none"
+                ref="image"
+                accept="image/*"
+                @change="onFilePicked">
             <v-btn
-                block
                 text
-                color="primary"
+                color="success"
                 @click="onClickUpdateCompany"
                 :loading="updateCompanyLoader"
                 :disabled="updateCompanyLoader">
@@ -39,19 +72,27 @@
                     website: '',
                     imageName: ''
                 },
-                updateCompanyLoader: false
+                updateCompanyLoader: false,
+                snackbarData: {
+                    multiLine: true,
+                    snackbar: false,
+                    text: '',
+                    color: '',
+                },
             }
         },
         components: {},
         computed: {
             ...mapGetters('company', [
-                'company'
+                'company',
+                'loader'
             ])
         },
         watch: {},
         methods: {
             ...mapActions('company', [
-                'updateCompany'
+                'updateCompany',
+                'getOneCompany'
             ]),
             onClickUpdateCompany()
             {
@@ -61,10 +102,25 @@
                     data: this.companyData
                 })
                 .then((response) => {
-
+                    this.updateCompanyLoader = false;
+                    this.snackbarData.snackbar = true;
+                    this.snackbarData.text = response.data.message;
+                    this.snackbarData.color = 'success';
+                    this.$refs.form.reset()
+                    this.$root.$emit('onClickUpdateCompany')
+                    this.getOneCompany(this.$props.id)
+                    setTimeout(() => {
+                        this.clearSnackbarData()
+                    }, 2000)
                 })
                 .catch((error) => {
-
+                    this.updateCompanyLoader = false;
+                    this.snackbarData.snackbar = true;
+                    this.snackbarData.text = error.response.data.message;
+                    this.snackbarData.color = 'red';
+                    setTimeout(() => {
+                        this.clearSnackbarData()
+                    }, 2000)
                 })
             },
             pickFile () {
@@ -86,6 +142,7 @@
             },
         },
         mounted() {
+            this.getOneCompany(this.$props.id)
         }
     }
 </script>

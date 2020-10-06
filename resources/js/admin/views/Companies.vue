@@ -152,7 +152,6 @@
                     snackbar: false,
                     text: '',
                     color: '',
-
                 },
                 imageName: '',
                 imageFile: '',
@@ -240,20 +239,6 @@
                     })
                 }
             },
-            // getCompanies()
-            // {
-            //     this.$nextTick(() => {
-            //         this.$refs.companyList.scrollTop = 0;
-            //     });
-            //     this.companyLoading = true;
-            //     this.getAllCompanies({
-            //         page: this.pagination.currentPage,
-            //         searchField: this.searchField
-            //     })
-            //     .then((response) => {
-            //
-            //     })
-            // }
 
         },
         mounted() {
@@ -261,10 +246,63 @@
                 page: this.pagination.currentPage,
                 searchField: this.searchField
             })
+            this.$root.$on('onClickDeleteCompany', () => {
+                this.getAllCompanies({
+                    page: this.pagination.currentPage,
+                    searchField: this.searchField
+                })
+            })
+            this.$root.$on('onClickUpdateCompany', () => {
+                this.getAllCompanies({
+                    page: this.pagination.currentPage,
+                    searchField: this.searchField
+                })
+            })
         }
     }
 </script>
 
 <style scoped>
-
+    .pagination-wrapper
+    {
+        width: 100%;
+    }
+    .card-content{
+        height: calc(100vh - 90px);
+    }
+    .scroll-overflow
+    {
+        height: calc(100vh - 180px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .content-row{
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
+    @media screen and (max-width: 960px) {
+        .mobile-sidebar{
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            height: 100%;
+        }
+        .card-content
+        {
+            height: calc(100vh - 56px);
+        }
+        .scroll-overflow
+        {
+            height: calc(100vh - 136px);
+        }
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+        transform: translateX(2em);
+    }
+    .fade-enter-active, .fade-leave-active{
+        transition: all .3s ease;
+    }
 </style>

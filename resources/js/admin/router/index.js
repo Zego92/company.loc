@@ -1,14 +1,22 @@
 import Vue from 'vue'
+
 import VueRouter from "vue-router";
+
 import store from "../store";
+
 import Login from "../views/Login";
+
 import Dashboard from "../views/Dashboard";
+
 import Companies from "../views/Companies";
 import Company from "../views/components/Company/Company";
 import CompanyInfo from "../views/components/Company/CompanyInfo";
 import CompanyEdit from "../views/components/Company/CompanyEdit";
 
 import Employees from "../views/Employees";
+import Employee from "../views/components/Employee/Employee";
+import EmployeeInfo from "../views/components/Employee/EmployeeInfo";
+import EmployeeEdit from "../views/components/Employee/EmployeeEdit";
 
 Vue.use(VueRouter);
 
@@ -44,7 +52,7 @@ const routes = [
                 children: [
                     {
                         path: '/',
-                        redirect: {name: CompanyInfo}
+                        redirect: {name: 'CompanyInfo'}
                     },
                     {
                         path: 'info',
@@ -68,7 +76,37 @@ const routes = [
         path: '/employees',
         name: 'Employees',
         meta:{layout: 'main', title: 'Admin Panel | Employees'},
-        component: Employees
+        component: Employees,
+        children: [
+            {
+                path: ':id',
+                name: 'Employee',
+                meta:{layout: 'main', title: 'Admin Panel | Employees'},
+                component: Employee,
+                props: true,
+                children: [
+                    {
+                        path: '/',
+                        redirect: {name: 'EmployeeInfo'}
+                    },
+                    {
+                        path: 'info',
+                        name: 'EmployeeInfo',
+                        meta:{layout: 'main', title: 'Admin Panel | Employees'},
+                        component: EmployeeInfo,
+                        props: true
+                    },
+                    {
+                        path: 'edit',
+                        name: 'EmployeeEdit',
+                        meta:{layout: 'main', title: 'Admin Panel | Employees'},
+                        component: EmployeeEdit,
+                        props: true
+                    }
+
+                ]
+            }
+        ]
     },
 
 ];

@@ -20,16 +20,24 @@
                     <v-row>
                         <v-col class="px-8 text-left pb-0">
                             <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{company.email}}</p>
-
+                            <a class="text-decoration-none mb-2 mt-2" target="_blank" :href="company.website"> <v-icon>mdi-web</v-icon> {{company.website}}</a>
                         </v-col>
                     </v-row>
-                    <v-btn color="white" icon absolute top right @click="onClickCloseButton"> <v-icon>mdi-close</v-icon> </v-btn>
+                    <v-btn
+                        color="white"
+                        icon
+                        absolute
+                        top
+                        right
+                        @click="onClickCloseButton">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
             <transition name="fade" mode="out-in">
                 <v-divider></v-divider>
             </transition>
-            <div class="user-content">
+            <div class="company-content">
                 <transition name="fade" mode="out-in">
                     <router-view></router-view>
                 </transition>
@@ -77,7 +85,7 @@
             ]),
             avatarText:{
                 get()  {
-                    const arr = this.logo.split(' ')
+                    const arr = this.company.logo.split(' ')
                     let counter = 0
                     return arr.reduce((result, current) => {
                         return counter++ < 2 ? result + current.charAt(0).toUpperCase() : result;
@@ -99,28 +107,6 @@
             {
                 this.$router.push({name: 'Companies'})
             },
-            // onClickDeleteCompany(id)
-            // {
-            //     this.deleteCompany(id)
-            //         .then((resp) => {
-            //             this.dialog = false;
-            //             this.snackbarData.snackbar = true;
-            //             this.snackbarData.text = resp.data.message;
-            //             this.snackbarData.color = 'success';
-            //             this.addUserLoading = false;
-            //             setTimeout(() => {
-            //                 this.$router.push({name: 'Companies'})
-            //                 this.clearSnackbarData()
-            //                 setTimeout(() => {
-            //                     window.location.reload()
-            //                 }, 1020)
-            //             }, 1000)
-            //         })
-            //         .catch(() => {
-            //             this.deleteUserLoading = false
-            //             this.dialog = false;
-            //         })
-            // },
             clearSnackbarData()
             {
                 this.snackbarData = {
@@ -137,5 +123,30 @@
 </script>
 
 <style scoped>
-
+    .company-content
+    {
+        height: calc(100vh - 400px);
+        overflow-y: auto;
+    }
+    .user-card
+    {
+        overflow: hidden;
+    }
+    @media screen and (max-width: 960px) {
+        .company-content
+        {
+            height: calc(100vh - 300px);
+        }
+        .v-application .text-md-body-1
+        {
+            line-height: 3rem !important;
+        }
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+        transform: translateX(2em);
+    }
+    .fade-enter-active, .fade-leave-active{
+        transition: all .3s ease;
+    }
 </style>
