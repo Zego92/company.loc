@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CompanyStoreRequest;
 use App\Http\Requests\Admin\CompanyUpdateRequest;
 use App\Models\Company;
+use App\Notifications\NewCompanyRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -68,6 +70,7 @@ class CompanyController extends Controller
             'website' => $request->website,
         ]);
         if ($company){
+            Notification::send($company, new NewCompanyRegister($company));
             $result['success'] = true;
             $result['message'] = 'New company added successfully';
             return response()->json($result, 200);

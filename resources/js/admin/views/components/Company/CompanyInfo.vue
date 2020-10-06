@@ -1,19 +1,43 @@
 <template>
+    <div>
+        <v-list-item two-line  v-if="!company.employees.length">
+            <v-list-item-content >
+                <v-list-item-title>This company dont have any employees</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item two-line v-for="employee in company.employees" v-if="company.employees.length">
+            <v-list-item-content >
+                <v-list-item-title>{{employee.first_name}} {{employee.last_name}}</v-list-item-title>
+                <v-list-item-subtitle>{{employee.phone}}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action-text>{{employee.email}}</v-list-item-action-text>
+        </v-list-item>
+    </div>
 
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex'
     export default {
-        props: [],
+        props: ['id'],
         name: "CompanyInfo",
         data() {
             return {}
         },
         components: {},
-        computed: {},
+        computed: {
+            ...mapGetters('company', [
+                'company'
+            ])
+        },
         watch: {},
-        methods: {},
+        methods: {
+            ...mapActions('company', [
+                'getOneCompany'
+            ])
+        },
         mounted() {
+            this.getOneCompany(this.$props.id)
         }
     }
 </script>

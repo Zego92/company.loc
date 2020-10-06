@@ -1,80 +1,80 @@
 import axios from "axios";
 
 function initialState () {
-    const loader = false;
-    const companies = [];
-    const company = {
-        employees: []
-    };
-    const addCompanyErrors = {
-        email: [],
-        logo: [],
-        name: [],
-        website: []
-    };
-    const pagination = {
-        currentPage: 1,
-        total: 1,
-        perPage: 1,
-        lastPage: 1,
+    const employees = [];
+    const employee = {
+        company: {}
     }
+    const pagination = [];
+    const loader = false;
+    const addEmployeeErrors = {
+        company_id: [],
+        first_name: [],
+        last_name: [],
+        email: [],
+        phone: []
+    };
     return {
-        loader,
-        companies,
-        addCompanyErrors,
+        employees,
+        employee,
         pagination,
-        company
+        loader,
+        addEmployeeErrors
     }
 }
 
 const getters = {
-    loader(state)
+    employees(state)
     {
-        return state.loader
+        return state.employees
     },
-    companies(state)
+    employee(state)
     {
-        return state.companies
-    },
-    addCompanyErrorsEmail(state)
-    {
-        return state.addCompanyErrors.email
-    },
-    addCompanyErrorsLogo(state)
-    {
-        return state.addCompanyErrors.logo
-    },
-    addCompanyErrorsName(state)
-    {
-        return state.addCompanyErrors.name
-    },
-    addCompanyErrorsWebsite(state)
-    {
-        return state.addCompanyErrors.website
+        return state.employee
     },
     pagination(state)
     {
         return state.pagination
     },
-    company(state)
+    loader(state)
     {
-        state.company = company
-    }
+        return state.loader
+    },
+    addEmployeeErrorsCompanyId(state)
+    {
+        return state.addEmployeeErrors.company_id
+    },
+    addEmployeeErrorsFirstName(state)
+    {
+        return state.addEmployeeErrors.first_name
+    },
+    addEmployeeErrorsLastName(state)
+    {
+        return state.addEmployeeErrors.last_name
+    },
+    addEmployeeErrorsEmail(state)
+    {
+        return state.addEmployeeErrors.email
+    },
+    addEmployeeErrorsPhone(state)
+    {
+        return state.addEmployeeErrors.phone
+    },
+
 };
 
 const actions = {
-    async getAllCompanies(ctx, {page = 1, searchField = ''})
+    async getAllEmployees(ctx, {page = 1, searchField = ''})
     {
         ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
-                url: '/api/admin/companies?page=' + page + '&search=' + searchField,
-                method: 'GET',
+                url: '/api/admin/employees?page=' + page + '&search=' + searchField,
+                method: 'Get',
             })
                 .then((resp) => {
                     ctx.commit('setIsLoad', false)
-                    ctx.commit('setCompanies', resp.data.companies)
-                    ctx.commit('setPagination', resp.data.pagination)
+                    ctx.commit('setEmployees', resp.data.employees)
                     resolve(resp)
                 })
                 .catch((error) => {
@@ -84,12 +84,32 @@ const actions = {
         })
     },
 
-    async addNewCompany(ctx, data)
+    async getOneEmployee(ctx, id)
     {
         ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
-                url: '/api/admin/companies',
+                url: '/api/admin/employees/' + id,
+                method: 'GET'
+            })
+                .then((resp) => {
+                    ctx.commit('setIsLoad', false)
+                    ctx.commit('setEmployee', resp.data.employee)
+                    resolve(resp)
+                })
+                .catch((error) => {
+                    ctx.commit('setIsLoad', false)
+                    reject(error)
+                })
+        })
+    },
+
+    async addNewEmployee(ctx, data)
+    {
+        ctx.commit('setIsLoad', true)
+        return new Promise((resolve, reject) => {
+            axios({
+                url: '/api/admin/employees',
                 method: 'POST',
                 data: data
             })
@@ -98,94 +118,67 @@ const actions = {
                     resolve(resp)
                 })
                 .catch((error) => {
-                    console.log(error.response.data.errors)
-                    ctx.commit('setIsLoad', false)
-                    ctx.commit('setAddCompanyErrors', error.response.data.errors)
-                    reject(error)
-                })
-        })
-    },
-
-    async getOneCompany(ctx, id)
-    {
-        ctx.commit('setIsLoad', true)
-        return new Promise((resolve, reject) => {
-            axios({
-                url: '/api/admin/companies/' + id,
-                method: 'GET'
-            })
-                .then((resp) => {
-                    ctx.commit('setIsLoad', false)
-                    ctx.commit('setCompany', resp.data.company)
-                    resolve(resp)
-                })
-                .catch((error) => {
                     ctx.commit('setIsLoad', false)
                     reject(error)
                 })
         })
     },
 
-    async updateCompany(ctx, {data, id})
+    async updateEmployee(ctx, {data, id})
     {
-        ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
-                url: '/api/admin/companies/' + id,
+                url: '/api/admin/employees/' + id,
                 method: 'PUT',
                 data: data
             })
                 .then((resp) => {
-                    ctx.commit('setIsLoad', false)
                     resolve(resp)
                 })
                 .catch((error) => {
-                    ctx.commit('setIsLoad', false)
                     reject(error)
                 })
         })
     },
 
-    async deleteCompany(ctx, id)
+    async deleteEmployee(ctx, id)
     {
-        ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
-                url: '/api/admin/companies/' + id,
-                method: 'DELETE',
+                url: '/api/admin/employees/' + id,
+                method: 'DELETE'
             })
                 .then((resp) => {
-                    ctx.commit('setIsLoad', false)
                     resolve(resp)
                 })
                 .catch((error) => {
-                    ctx.commit('setIsLoad', false)
                     reject(error)
                 })
         })
     }
+
 };
 
 const mutations = {
-    setIsLoad(state, loader)
+    setEmployees(state, employees)
     {
-        state.loader = loader
+        state.employees = employees
     },
-    setCompanies(state, companies)
+    setEmployee(state, employee)
     {
-        state.companies = companies
-    },
-    setAddCompanyErrors(state, addCompanyErrors)
-    {
-        state.addCompanyErrors = addCompanyErrors
+        state.employee = employee
     },
     setPagination(state, pagination)
     {
         state.pagination = pagination
     },
-    setCompany(state, company)
+    setIsLoad(state, loader)
     {
-        state.company = company;
+        state.loader = loader
+    },
+    setAddEmployeeErrors(state, addEmployeeErrors)
+    {
+        state.addEmployeeErrors = addEmployeeErrors
     }
 };
 

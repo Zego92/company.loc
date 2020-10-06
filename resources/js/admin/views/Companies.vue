@@ -64,7 +64,7 @@
                                             <v-spacer></v-spacer>
                                             <v-text-field
                                                 v-model="companyData.website"
-                                                :error-messages="addCompanyErrorsLogo"
+                                                :error-messages="addCompanyErrorsWebsite"
                                                 label="Website"
                                                 type="text"
                                                 counter
@@ -76,7 +76,7 @@
                                             <v-spacer></v-spacer>
                                             <v-text-field
                                                 clearable
-                                                :error-messages="addCompanyErrorsWebsite"
+                                                :error-messages="addCompanyErrorsLogo"
                                                 label="Logo"
                                                 accept="image/*"
                                                 @click='pickFile'

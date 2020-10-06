@@ -22,4 +22,5 @@ Route::group(['middleware' => ['cors', 'json.response'], 'prefix' => 'admin', 'n
     Route::post('/logout', 'AuthController@logout')->name('logout.api');
     Route::resource('/dashboard', 'DashboardController');
     Route::resource('/companies', 'CompanyController');
+    Route::resource('/employees', 'CompanyController');
 });
