@@ -54,16 +54,13 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CompanyStoreRequest $request)
-//    public function store(Request $request)
     {
-//        return $request->all();
         $result['success'] = false;
         $image = $request->logo;
         $explode_1 = explode(';', $image);
         $explode_2 = explode('/', $explode_1[0]);
         $imageName = Str::random(12) . '.' . $explode_2[1];
-//        Image::make($image)->resize(100, 100)->save(storage_path('/uploads/logo/' . $imageName), 50);
-        Image::make($image)->resize(100, 100)->save(public_path('/uploads/logo/' . $imageName), 50);
+        Image::make($image)->resize(100, 100)->save(storage_path('/uploads/logo/' . $imageName), 50);
         $company = Company::create([
             'name' => $request->name,
             'email' => $request->email,
