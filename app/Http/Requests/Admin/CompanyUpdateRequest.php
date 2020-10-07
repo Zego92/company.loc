@@ -26,7 +26,6 @@ class CompanyUpdateRequest extends FormRequest
         return [
             'name' => 'string|max:50|unique:companies',
             'email' => 'string|email|unique:companies',
-            'logo' => 'mimes:png|dimensions:man_width=100,man_height=100',
             'website' => 'string|unique:companies',
         ];
     }

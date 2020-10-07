@@ -107,9 +107,8 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompanyUpdateRequest $request, $id)
     {
-//        return $request->all();
         $result['success'] = true;
         $company = Company::find($id);
         if (isset($request->logo)){
