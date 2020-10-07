@@ -14,7 +14,7 @@
 
                 <v-list-item-content>
                     <v-list-item-title>{{firstName}} {{lastName}}</v-list-item-title>
-                    <v-list-item-subtitle>{{company}}</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{phone}}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action-text>{{email}}</v-list-item-action-text>
             </v-list-item>
@@ -60,7 +60,6 @@
     export default {
         props: [
             'id',
-            'company',
             'firstName',
             'lastName',
             'email',

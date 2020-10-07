@@ -115,7 +115,6 @@
                                     v-for="employee in employees"
                                     :key="employee.id"
                                     :id="employee.id"
-                                    :company="employee.company.name"
                                     :firstName="employee.first_name"
                                     :lastName="employee.last_name"
                                     :email="employee.email"
