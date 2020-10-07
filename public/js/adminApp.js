@@ -2582,7 +2582,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2628,7 +2627,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('employee', ['getAllEmployees', 'addNewEmployee'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('company', ['getAllCompanies'])), {}, {
-    onClickAddNewEmployee: function onClickAddNewEmployee() {},
+    onClickAddNewEmployee: function onClickAddNewEmployee() {
+      var _this = this;
+
+      this.addNewEmployee(this.employeeData).then(function (response) {
+        _this.dialog = false;
+        _this.snackbarData.snackbar = true;
+        _this.snackbarData.text = response.data.message;
+        _this.snackbarData.color = 'success';
+
+        _this.$refs.form.reset();
+
+        setTimeout(function () {
+          _this.clearSnackbarData();
+        }, 2000);
+      })["catch"](function (error) {
+        _this.dialog = true;
+        _this.snackbarData.snackbar = true;
+        _this.snackbarData.text = error.response.data.message;
+        _this.snackbarData.color = 'red';
+        setTimeout(function () {
+          _this.clearSnackbarData();
+        }, 2000);
+      });
+    },
     clearSnackbarData: function clearSnackbarData() {
       this.snackbarData = {
         snackbar: false,
@@ -2638,6 +2660,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
+    var _this2 = this;
+
     this.getAllEmployees({
       page: this.pagination.currentPage,
       searchField: this.searchField
@@ -2645,6 +2669,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getAllCompanies({
       page: this.pagination.currentPage,
       searchField: this.searchField
+    });
+    this.$root.$on('onClickDeleteEmployee', function () {
+      _this2.getAllEmployees({
+        page: _this2.pagination.currentPage,
+        searchField: _this2.searchField
+      });
+
+      _this2.getAllCompanies({
+        page: _this2.pagination.currentPage,
+        searchField: _this2.searchField
+      });
+    });
+    this.$root.$on('onClickUpdateEmployee', function () {
+      _this2.getAllEmployees({
+        page: _this2.pagination.currentPage,
+        searchField: _this2.searchField
+      });
+
+      _this2.getAllCompanies({
+        page: _this2.pagination.currentPage,
+        searchField: _this2.searchField
+      });
     });
   }
 });
@@ -3005,7 +3051,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         website: '',
         imageName: ''
       },
-      updateCompanyLoader: false,
       snackbarData: {
         multiLine: true,
         snackbar: false,
@@ -3358,7 +3403,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: [],
+  props: ['id'],
   name: "Employee",
   data: function data() {
     return {
@@ -3419,21 +3464,149 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id'],
   name: "EmployeeEdit",
   data: function data() {
-    return {};
+    return {
+      employeeData: {
+        companyId: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
+      },
+      snackbarData: {
+        multiLine: true,
+        snackbar: false,
+        text: '',
+        color: ''
+      }
+    };
   },
   components: {},
-  computed: {},
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('company', ['companies'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('employee', ['employee'])),
   watch: {},
-  methods: {},
-  mounted: function mounted() {}
+  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('company', ['getAllCompanies'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('employee', ['getOneEmployee', 'updateEmployee'])), {}, {
+    onClickUpdateEmployee: function onClickUpdateEmployee() {
+      var _this = this;
+
+      this.updateEmployee({
+        data: this.employeeData,
+        id: this.$props.id
+      }).then(function (response) {
+        _this.updateCompanyLoader = false;
+        _this.snackbarData.snackbar = true;
+        _this.snackbarData.text = response.data.message;
+        _this.snackbarData.color = 'success';
+
+        _this.$refs.form.reset();
+
+        _this.$root.$emit('onClickUpdateEmployee');
+
+        _this.getOneEmployee(_this.$props.id);
+
+        setTimeout(function () {
+          _this.clearSnackbarData();
+        }, 2000);
+      })["catch"](function (error) {
+        _this.updateCompanyLoader = false;
+        _this.snackbarData.snackbar = true;
+        _this.snackbarData.text = error.response.data.message;
+        _this.snackbarData.color = 'red';
+        setTimeout(function () {
+          _this.clearSnackbarData();
+        }, 2000);
+      });
+    }
+  }),
+  mounted: function mounted() {
+    this.getAllCompanies({
+      page: 1,
+      searchField: ''
+    });
+    this.getOneEmployee(this.$props.id);
+  }
 });
 
 /***/ }),
@@ -3454,6 +3627,24 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3557,7 +3748,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['id', 'company', 'firstName', 'lastName', 'email', 'phone'],
+  props: ['id', 'firstName', 'lastName', 'email', 'phone'],
   name: "EmployeeItem",
   data: function data() {
     return {
@@ -6766,7 +6957,6 @@ var render = function() {
       _c(
         "v-snackbar",
         {
-          ref: "snackbar",
           attrs: {
             color: _vm.snackbarData.color,
             timeout: "2000",
@@ -7190,7 +7380,6 @@ var render = function() {
                                   key: employee.id,
                                   attrs: {
                                     id: employee.id,
-                                    company: employee.company.name,
                                     firstName: employee.first_name,
                                     lastName: employee.last_name,
                                     email: employee.email,
@@ -7939,8 +8128,8 @@ var render = function() {
               attrs: {
                 text: "",
                 color: "success",
-                loading: _vm.updateCompanyLoader,
-                disabled: _vm.updateCompanyLoader
+                loading: _vm.loader,
+                disabled: _vm.loader
               },
               on: { click: _vm.onClickUpdateCompany }
             },
@@ -8366,11 +8555,7 @@ var render = function() {
             expression: "snackbarData.snackbar"
           }
         },
-        [
-          _vm._v(
-            "\n            " + _vm._s(_vm.snackbarData.text) + "\n            "
-          )
-        ]
+        [_vm._v("\n        " + _vm._s(_vm.snackbarData.text) + "\n        ")]
       ),
       _vm._v(" "),
       _c(
@@ -8380,6 +8565,112 @@ var render = function() {
           attrs: { height: "100%", outlined: "" }
         },
         [
+          _vm.employee.id
+            ? _c(
+                "v-row",
+                { attrs: { align: "end" } },
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { "align-self": "start", cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "px-8 text-left pb-0",
+                              attrs: { cols: "11" }
+                            },
+                            [
+                              _c(
+                                "v-avatar",
+                                {
+                                  staticClass: "float-left mr-3",
+                                  attrs: { color: "primary", size: "50" }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "white--text headline" },
+                                    [_vm._v(_vm._s(_vm.avatarText))]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "h4",
+                                {
+                                  staticClass:
+                                    "mb-0 text-md-body-1 text-sm-body-2 mt-3 text-no-wrap"
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.employee.first_name) +
+                                      " " +
+                                      _vm._s(_vm.employee.last_name)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c("v-col", { staticClass: "px-8 text-left pb-0" }, [
+                            _c(
+                              "p",
+                              { staticClass: "mb-2 mt-2" },
+                              [
+                                _c("v-icon", [_vm._v("mdi-email")]),
+                                _vm._v(" " + _vm._s(_vm.employee.email))
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              { staticClass: "mb-2 mt-2" },
+                              [
+                                _c("v-icon", [_vm._v("mdi-email")]),
+                                _vm._v(" " + _vm._s(_vm.employee.phone))
+                              ],
+                              1
+                            )
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "white",
+                            icon: "",
+                            absolute: "",
+                            top: "",
+                            right: ""
+                          },
+                          on: { click: _vm.onClickCloseButton }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-close")])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "transition",
             { attrs: { name: "fade", mode: "out-in" } },
@@ -8477,7 +8768,217 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c(
+        "v-snackbar",
+        {
+          attrs: {
+            absolute: "",
+            top: "",
+            right: "",
+            color: _vm.snackbarData.color,
+            timeout: "2000",
+            top: true,
+            rounded: "pill"
+          },
+          scopedSlots: _vm._u([
+            {
+              key: "action",
+              fn: function(ref) {
+                var attrs = ref.attrs
+                return [
+                  _c(
+                    "v-btn",
+                    _vm._b(
+                      {
+                        attrs: { color: "white", text: "" },
+                        on: {
+                          click: function($event) {
+                            _vm.snackbarData.snackbar = false
+                          }
+                        }
+                      },
+                      "v-btn",
+                      attrs,
+                      false
+                    ),
+                    [_c("v-icon", [_vm._v("mdi-close")])],
+                    1
+                  )
+                ]
+              }
+            }
+          ]),
+          model: {
+            value: _vm.snackbarData.snackbar,
+            callback: function($$v) {
+              _vm.$set(_vm.snackbarData, "snackbar", $$v)
+            },
+            expression: "snackbarData.snackbar"
+          }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.snackbarData.text) + "\n        ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-form",
+        { ref: "form" },
+        [
+          _c(
+            "v-col",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-select", {
+                attrs: {
+                  "return-object": "",
+                  items: _vm.companies,
+                  "item-text": "name",
+                  "item-value": "id",
+                  label: "Choose the Company",
+                  required: ""
+                },
+                model: {
+                  value: _vm.employeeData.companyId,
+                  callback: function($$v) {
+                    _vm.$set(_vm.employeeData, "companyId", $$v)
+                  },
+                  expression: "employeeData.companyId"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "First Name",
+                  type: "text",
+                  counter: "",
+                  dark: "",
+                  clearable: "",
+                  required: ""
+                },
+                model: {
+                  value: _vm.employeeData.firstName,
+                  callback: function($$v) {
+                    _vm.$set(_vm.employeeData, "firstName", $$v)
+                  },
+                  expression: "employeeData.firstName"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "Last Name",
+                  type: "text",
+                  counter: "",
+                  dark: "",
+                  clearable: "",
+                  required: ""
+                },
+                model: {
+                  value: _vm.employeeData.lastName,
+                  callback: function($$v) {
+                    _vm.$set(_vm.employeeData, "lastName", $$v)
+                  },
+                  expression: "employeeData.lastName"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "Email",
+                  type: "email",
+                  counter: "",
+                  dark: "",
+                  clearable: "",
+                  required: ""
+                },
+                model: {
+                  value: _vm.employeeData.email,
+                  callback: function($$v) {
+                    _vm.$set(_vm.employeeData, "email", $$v)
+                  },
+                  expression: "employeeData.email"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "Phone",
+                  type: "tel",
+                  counter: "",
+                  dark: "",
+                  clearable: "",
+                  required: ""
+                },
+                model: {
+                  value: _vm.employeeData.phone,
+                  callback: function($$v) {
+                    _vm.$set(_vm.employeeData, "phone", $$v)
+                  },
+                  expression: "employeeData.phone"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "d-md-inline-block d-sm-block",
+                  attrs: { text: "", color: "green" },
+                  on: { click: _vm.onClickUpdateEmployee }
+                },
+                [_vm._v("Update")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -8502,26 +9003,100 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-list-item",
-    { attrs: { "two-line": "" } },
+    "v-list",
     [
       _c(
-        "v-list-item-content",
+        "v-list-item",
+        { staticClass: "mb-3", attrs: { "two-line": "" } },
         [
-          _c("v-list-item-title", [
-            _vm._v(
-              _vm._s(_vm.employee.first_name) +
-                " " +
-                _vm._s(_vm.employee.last_name)
-            )
-          ]),
+          _c(
+            "v-list-item-content",
+            [
+              _c(
+                "v-list-item-title",
+                { staticClass: "mb-2 font-weight-bold" },
+                [_vm._v("Company Name")]
+              ),
+              _vm._v(" "),
+              _c("v-list-item-subtitle", [
+                _vm._v(_vm._s(_vm.employee.company.name))
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("v-list-item-subtitle", [_vm._v(_vm._s(_vm.employee.phone))])
+          _c(
+            "v-list-item-action-text",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    text: "",
+                    small: "",
+                    dark: "",
+                    color: "primary",
+                    icon: "",
+                    to: "/companies/" + _vm.id
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-information-outline")])],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
       _vm._v(" "),
-      _c("v-list-item-action-text", [_vm._v(_vm._s(_vm.employee.email))])
+      _c(
+        "v-list-item",
+        { staticClass: "mb-3", attrs: { "two-line": "" } },
+        [
+          _c(
+            "v-list-item-content",
+            [
+              _c(
+                "v-list-item-title",
+                { staticClass: "mb-2 font-weight-bold" },
+                [_vm._v("Company Email")]
+              ),
+              _vm._v(" "),
+              _c("v-list-item-subtitle", [
+                _vm._v(_vm._s(_vm.employee.company.email))
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-list-item",
+        { staticClass: "mb-3", attrs: { "two-line": "" } },
+        [
+          _c(
+            "v-list-item-content",
+            [
+              _c(
+                "v-list-item-title",
+                { staticClass: "mb-2 font-weight-bold" },
+                [_vm._v("Company WebSite")]
+              ),
+              _vm._v(" "),
+              _c("v-list-item-subtitle", [
+                _c("a", { attrs: { href: _vm.employee.company.website } }, [
+                  _vm._v(_vm._s(_vm.employee.company.website))
+                ])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -8624,7 +9199,7 @@ var render = function() {
                     _vm._v(_vm._s(_vm.firstName) + " " + _vm._s(_vm.lastName))
                   ]),
                   _vm._v(" "),
-                  _c("v-list-item-subtitle", [_vm._v(_vm._s(_vm.company))])
+                  _c("v-list-item-subtitle", [_vm._v(_vm._s(_vm.phone))])
                 ],
                 1
               ),
@@ -69731,12 +70306,19 @@ function initialState() {
     perPage: 1,
     lastPage: 1
   };
+  var updateCompanyErrors = {
+    email: [],
+    logo: [],
+    name: [],
+    website: []
+  };
   return {
     loader: loader,
     companies: companies,
     addCompanyErrors: addCompanyErrors,
     pagination: pagination,
-    company: company
+    company: company,
+    updateCompanyErrors: updateCompanyErrors
   };
 }
 
@@ -69764,6 +70346,18 @@ var getters = {
   },
   company: function company(state) {
     return state.company;
+  },
+  updateCompanyErrorsEmail: function updateCompanyErrorsEmail(state) {
+    return state.updateCompanyErrors.email;
+  },
+  updateCompanyErrorsLogo: function updateCompanyErrorsLogo(state) {
+    return state.updateCompanyErrors.logo;
+  },
+  updateCompanyErrorsName: function updateCompanyErrorsName(state) {
+    return state.updateCompanyErrors.name;
+  },
+  updateCompanyErrorsWebsite: function updateCompanyErrorsWebsite(state) {
+    return state.updateCompanyErrors.website;
   }
 };
 var actions = {
@@ -69935,6 +70529,9 @@ var mutations = {
   },
   setCompany: function setCompany(state, company) {
     state.company = company;
+  },
+  setUpdateCompanyErrors: function setUpdateCompanyErrors(state, updateCompanyErrors) {
+    state.updateCompanyErrors = updateCompanyErrors;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -70069,9 +70666,21 @@ function initialState() {
   var employee = {
     company: {}
   };
-  var pagination = [];
+  var pagination = {
+    currentPage: 1,
+    total: 1,
+    perPage: 1,
+    lastPage: 1
+  };
   var loader = false;
   var addEmployeeErrors = {
+    company_id: [],
+    first_name: [],
+    last_name: [],
+    email: [],
+    phone: []
+  };
+  var updateEmployeeErrors = {
     company_id: [],
     first_name: [],
     last_name: [],
@@ -70083,7 +70692,8 @@ function initialState() {
     employee: employee,
     pagination: pagination,
     loader: loader,
-    addEmployeeErrors: addEmployeeErrors
+    addEmployeeErrors: addEmployeeErrors,
+    updateEmployeeErrors: updateEmployeeErrors
   };
 }
 
@@ -70114,6 +70724,21 @@ var getters = {
   },
   addEmployeeErrorsPhone: function addEmployeeErrorsPhone(state) {
     return state.addEmployeeErrors.phone;
+  },
+  updateEmployeeErrorsCompanyId: function updateEmployeeErrorsCompanyId(state) {
+    return state.updateEmployeeErrors.company_id;
+  },
+  updateEmployeeErrorsFirstName: function updateEmployeeErrorsFirstName(state) {
+    return state.updateEmployeeErrors.first_name;
+  },
+  updateEmployeeErrorsLastName: function updateEmployeeErrorsLastName(state) {
+    return state.updateEmployeeErrors.last_name;
+  },
+  updateEmployeeErrorsEmail: function updateEmployeeErrorsEmail(state) {
+    return state.updateEmployeeErrors.email;
+  },
+  updateEmployeeErrorsPhone: function updateEmployeeErrorsPhone(state) {
+    return state.updateEmployeeErrors.phone;
   }
 };
 var actions = {
@@ -70216,19 +70841,22 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               data = _ref2.data, id = _ref2.id;
+              ctx.commit('setIsLoad', true);
               return _context4.abrupt("return", new Promise(function (resolve, reject) {
                 axios__WEBPACK_IMPORTED_MODULE_1___default()({
                   url: '/api/admin/employees/' + id,
                   method: 'PUT',
                   data: data
                 }).then(function (resp) {
+                  ctx.commit('setIsLoad', false);
                   resolve(resp);
                 })["catch"](function (error) {
+                  ctx.commit('setIsLoad', false);
                   reject(error);
                 });
               }));
 
-            case 2:
+            case 3:
             case "end":
               return _context4.stop();
           }
@@ -70242,18 +70870,21 @@ var actions = {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
+              ctx.commit('setIsLoad', true);
               return _context5.abrupt("return", new Promise(function (resolve, reject) {
                 axios__WEBPACK_IMPORTED_MODULE_1___default()({
                   url: '/api/admin/employees/' + id,
                   method: 'DELETE'
                 }).then(function (resp) {
+                  ctx.commit('setIsLoad', false);
                   resolve(resp);
                 })["catch"](function (error) {
+                  ctx.commit('setIsLoad', false);
                   reject(error);
                 });
               }));
 
-            case 1:
+            case 2:
             case "end":
               return _context5.stop();
           }
@@ -70277,6 +70908,9 @@ var mutations = {
   },
   setAddEmployeeErrors: function setAddEmployeeErrors(state, addEmployeeErrors) {
     state.addEmployeeErrors = addEmployeeErrors;
+  },
+  setUpdateEmployeeErrors: function setUpdateEmployeeErrors(state, updateEmployeeErrors) {
+    state.updateEmployeeErrors = updateEmployeeErrors;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

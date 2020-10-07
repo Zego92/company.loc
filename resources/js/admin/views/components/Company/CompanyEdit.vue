@@ -50,8 +50,8 @@
                 text
                 color="success"
                 @click="onClickUpdateCompany"
-                :loading="updateCompanyLoader"
-                :disabled="updateCompanyLoader">
+                :loading="loader"
+                :disabled="loader">
                 Update
             </v-btn>
         </v-form>
@@ -72,7 +72,6 @@
                     website: '',
                     imageName: ''
                 },
-                updateCompanyLoader: false,
                 snackbarData: {
                     multiLine: true,
                     snackbar: false,

@@ -7,33 +7,33 @@
             </template>
         </v-snackbar>
         <v-card height="100%" outlined class="py-2 user-card">
-<!--            <v-row align="end" v-if="employee.id">-->
-<!--                <v-col align-self="start" cols="12">-->
-<!--                    <v-row>-->
-<!--                        <v-col cols=11 class="px-8 text-left pb-0">-->
-<!--                            <v-avatar color="primary" size="50" class="float-left mr-3">-->
-<!--                                <span class="white&#45;&#45;text headline">{{avatarText}}</span>-->
-<!--                            </v-avatar>-->
-<!--                            <h4 class="mb-0 text-md-body-1 text-sm-body-2 mt-3 text-no-wrap">{{employee.first_name}} {{employee.last_name}}</h4>-->
-<!--                        </v-col>-->
-<!--                    </v-row>-->
-<!--                    <v-row>-->
-<!--                        <v-col class="px-8 text-left pb-0">-->
-<!--                            <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{employee.email}}</p>-->
-<!--                            <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{employee.phone}}</p>-->
-<!--                        </v-col>-->
-<!--                    </v-row>-->
-<!--                    <v-btn-->
-<!--                        color="white"-->
-<!--                        icon-->
-<!--                        absolute-->
-<!--                        top-->
-<!--                        right-->
-<!--                        @click="onClickCloseButton">-->
-<!--                        <v-icon>mdi-close</v-icon>-->
-<!--                    </v-btn>-->
-<!--                </v-col>-->
-<!--            </v-row>-->
+            <v-row align="end" v-if="employee.id">
+                <v-col align-self="start" cols="12">
+                    <v-row>
+                        <v-col cols=11 class="px-8 text-left pb-0">
+                            <v-avatar color="primary" size="50" class="float-left mr-3">
+                                <span class="white--text headline">{{avatarText}}</span>
+                            </v-avatar>
+                            <h4 class="mb-0 text-md-body-1 text-sm-body-2 mt-3 text-no-wrap">{{employee.first_name}} {{employee.last_name}}</h4>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col class="px-8 text-left pb-0">
+                            <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{employee.email}}</p>
+                            <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{employee.phone}}</p>
+                        </v-col>
+                    </v-row>
+                    <v-btn
+                        color="white"
+                        icon
+                        absolute
+                        top
+                        right
+                        @click="onClickCloseButton">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
             <transition name="fade" mode="out-in">
                 <v-divider></v-divider>
             </transition>
@@ -63,7 +63,7 @@
 <script>
     import {mapActions, mapGetters} from 'vuex'
     export default {
-        props: [],
+        props: ['id'],
         name: "Employee",
         data() {
             return {
