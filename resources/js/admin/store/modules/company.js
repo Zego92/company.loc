@@ -18,12 +18,19 @@ function initialState () {
         perPage: 1,
         lastPage: 1,
     }
+    const updateCompanyErrors = {
+        email: [],
+        logo: [],
+        name: [],
+        website: []
+    }
     return {
         loader,
         companies,
         addCompanyErrors,
         pagination,
-        company
+        company,
+        updateCompanyErrors
     }
 }
 
@@ -59,7 +66,24 @@ const getters = {
     company(state)
     {
         return state.company
-    }
+    },
+
+    updateCompanyErrorsEmail(state)
+    {
+        return state.updateCompanyErrors.email
+    },
+    updateCompanyErrorsLogo(state)
+    {
+        return state.updateCompanyErrors.logo
+    },
+    updateCompanyErrorsName(state)
+    {
+        return state.updateCompanyErrors.name
+    },
+    updateCompanyErrorsWebsite(state)
+    {
+        return state.updateCompanyErrors.website
+    },
 };
 
 const actions = {
@@ -186,6 +210,10 @@ const mutations = {
     setCompany(state, company)
     {
         state.company = company;
+    },
+    setUpdateCompanyErrors(state, updateCompanyErrors)
+    {
+        state.updateCompanyErrors = updateCompanyErrors
     }
 };
 

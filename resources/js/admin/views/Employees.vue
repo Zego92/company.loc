@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="fill-height fill-height-main py-0">
-        <v-snackbar :color="snackbarData.color" ref="snackbar" timeout="2000" :top="true" rounded="pill" v-model="snackbarData.snackbar" :multi-line="snackbarData.multiLine">
+        <v-snackbar :color="snackbarData.color" timeout="2000" :top="true" rounded="pill" v-model="snackbarData.snackbar" :multi-line="snackbarData.multiLine">
             {{ snackbarData.text }}
             <template v-slot:action="{ attrs }">
                 <v-btn color="white" text v-bind="attrs" @click="snackbarData.snackbar = false"><v-icon>mdi-close</v-icon></v-btn>
@@ -206,7 +206,26 @@
             ]),
             onClickAddNewEmployee()
             {
-
+                this.addNewEmployee(this.employeeData)
+                .then((response) => {
+                    this.dialog = false;
+                    this.snackbarData.snackbar = true;
+                    this.snackbarData.text = response.data.message;
+                    this.snackbarData.color = 'success';
+                    this.$refs.form.reset()
+                    setTimeout(() => {
+                        this.clearSnackbarData()
+                    }, 2000)
+                })
+                .catch((error) => {
+                    this.dialog = true;
+                    this.snackbarData.snackbar = true;
+                    this.snackbarData.text = error.response.data.message;
+                    this.snackbarData.color = 'red';
+                    setTimeout(() => {
+                        this.clearSnackbarData()
+                    }, 2000)
+                })
             },
             clearSnackbarData()
             {
@@ -225,6 +244,26 @@
             this.getAllCompanies({
                 page: this.pagination.currentPage,
                 searchField: this.searchField
+            })
+            this.$root.$on('onClickDeleteEmployee', () => {
+                this.getAllEmployees({
+                    page: this.pagination.currentPage,
+                    searchField: this.searchField
+                })
+                this.getAllCompanies({
+                    page: this.pagination.currentPage,
+                    searchField: this.searchField
+                })
+            })
+            this.$root.$on('onClickUpdateEmployee', () => {
+                this.getAllEmployees({
+                    page: this.pagination.currentPage,
+                    searchField: this.searchField
+                })
+                this.getAllCompanies({
+                    page: this.pagination.currentPage,
+                    searchField: this.searchField
+                })
             })
         }
     }

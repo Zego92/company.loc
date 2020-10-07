@@ -15,7 +15,6 @@
                     item-text="name"
                     item-value="id"
                     v-model="employeeData.companyId"
-                    :error-messages="addEmployeeErrorsCompanyId"
                     label="Choose the Company"
                     required/>
             </v-col>
@@ -23,7 +22,6 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.firstName"
-                    :error-messages="addEmployeeErrorsFirstName"
                     label="First Name"
                     type="text"
                     counter
@@ -35,7 +33,6 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.lastName"
-                    :error-messages="addEmployeeErrorsLastName"
                     label="Last Name"
                     type="text"
                     counter
@@ -47,7 +44,6 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.email"
-                    :error-messages="addEmployeeErrorsEmail"
                     label="Email"
                     type="email"
                     counter
@@ -59,7 +55,6 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.phone"
-                    :error-messages="addEmployeeErrorsPhone"
                     label="Phone"
                     type="tel"
                     counter
@@ -69,8 +64,7 @@
             </v-col>
             <v-col>
                 <v-spacer></v-spacer>
-                <v-btn class="d-md-inline-block d-sm-block" text color="green" @click="onClickAddNewEmployee">Add</v-btn>
-                <v-btn class="d-md-inline-block d-sm-block" text color="red" @click="dialog = false">Close</v-btn>
+                <v-btn class="d-md-inline-block d-sm-block" text color="green" @click="onClickUpdateEmployee">Update</v-btn>
             </v-col>
         </v-form>
     </div>
@@ -96,6 +90,7 @@
                     text: '',
                     color: '',
                 },
+
             }
         },
         components: {},
@@ -115,13 +110,42 @@
             ...mapActions('employee', [
                 'getOneEmployee',
                 'updateEmployee'
-            ])
+            ]),
+            onClickUpdateEmployee()
+            {
+                this.updateEmployee({
+                    data: this.employeeData,
+                    id: this.$props.id
+                })
+                .then((response) => {
+                    this.updateCompanyLoader = false;
+                    this.snackbarData.snackbar = true;
+                    this.snackbarData.text = response.data.message;
+                    this.snackbarData.color = 'success';
+                    this.$refs.form.reset()
+                    this.$root.$emit('onClickUpdateEmployee')
+                    this.getOneEmployee(this.$props.id)
+                    setTimeout(() => {
+                        this.clearSnackbarData()
+                    }, 2000)
+                })
+                .catch((error) => {
+                    this.updateCompanyLoader = false;
+                    this.snackbarData.snackbar = true;
+                    this.snackbarData.text = error.response.data.message;
+                    this.snackbarData.color = 'red';
+                    setTimeout(() => {
+                        this.clearSnackbarData()
+                    }, 2000)
+                })
+            }
         },
         mounted() {
             this.getAllCompanies({
                 page: 1,
                 searchField: ''
             })
+            this.getOneEmployee(this.$props.id)
         }
     }
 </script>

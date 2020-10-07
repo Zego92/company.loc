@@ -5,7 +5,12 @@ function initialState () {
     const employee = {
         company: {}
     }
-    const pagination = [];
+    const pagination = {
+        currentPage: 1,
+        total: 1,
+        perPage: 1,
+        lastPage: 1,
+    };
     const loader = false;
     const addEmployeeErrors = {
         company_id: [],
@@ -14,12 +19,20 @@ function initialState () {
         email: [],
         phone: []
     };
+    const updateEmployeeErrors = {
+        company_id: [],
+        first_name: [],
+        last_name: [],
+        email: [],
+        phone: []
+    }
     return {
         employees,
         employee,
         pagination,
         loader,
-        addEmployeeErrors
+        addEmployeeErrors,
+        updateEmployeeErrors
     }
 }
 
@@ -59,6 +72,28 @@ const getters = {
     addEmployeeErrorsPhone(state)
     {
         return state.addEmployeeErrors.phone
+    },
+
+
+    updateEmployeeErrorsCompanyId(state)
+    {
+        return state.updateEmployeeErrors.company_id
+    },
+    updateEmployeeErrorsFirstName(state)
+    {
+        return state.updateEmployeeErrors.first_name
+    },
+    updateEmployeeErrorsLastName(state)
+    {
+        return state.updateEmployeeErrors.last_name
+    },
+    updateEmployeeErrorsEmail(state)
+    {
+        return state.updateEmployeeErrors.email
+    },
+    updateEmployeeErrorsPhone(state)
+    {
+        return state.updateEmployeeErrors.phone
     },
 
 };
@@ -127,6 +162,7 @@ const actions = {
 
     async updateEmployee(ctx, {data, id})
     {
+        ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
                 url: '/api/admin/employees/' + id,
@@ -134,9 +170,11 @@ const actions = {
                 data: data
             })
                 .then((resp) => {
+                    ctx.commit('setIsLoad', false)
                     resolve(resp)
                 })
                 .catch((error) => {
+                    ctx.commit('setIsLoad', false)
                     reject(error)
                 })
         })
@@ -144,15 +182,18 @@ const actions = {
 
     async deleteEmployee(ctx, id)
     {
+        ctx.commit('setIsLoad', true)
         return new Promise((resolve, reject) => {
             axios({
                 url: '/api/admin/employees/' + id,
                 method: 'DELETE'
             })
                 .then((resp) => {
+                    ctx.commit('setIsLoad', false)
                     resolve(resp)
                 })
                 .catch((error) => {
+                    ctx.commit('setIsLoad', false)
                     reject(error)
                 })
         })
@@ -180,6 +221,10 @@ const mutations = {
     setAddEmployeeErrors(state, addEmployeeErrors)
     {
         state.addEmployeeErrors = addEmployeeErrors
+    },
+    setUpdateEmployeeErrors(state, updateEmployeeErrors)
+    {
+        state.updateEmployeeErrors = updateEmployeeErrors
     }
 };
 
