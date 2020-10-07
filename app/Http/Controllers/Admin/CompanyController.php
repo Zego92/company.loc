@@ -140,7 +140,7 @@ class CompanyController extends Controller
         $result['success'] = true;
         $company = Company::find($id);
         $company->delete();
-        File::delete(public_path() . '/uploads/logo/' . $company->logo);
+        File::delete(storage_path('/uploads/logo/' . $company->logo));
         $result['message'] = 'The raw has been delete';
         return response()->json($result, 200);
     }
