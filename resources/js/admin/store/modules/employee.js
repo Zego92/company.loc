@@ -55,15 +55,15 @@ const getters = {
     },
     addEmployeeErrorsCompanyId(state)
     {
-        return state.addEmployeeErrors.company_id
+        return state.addEmployeeErrors.companyId
     },
     addEmployeeErrorsFirstName(state)
     {
-        return state.addEmployeeErrors.first_name
+        return state.addEmployeeErrors.firstName
     },
     addEmployeeErrorsLastName(state)
     {
-        return state.addEmployeeErrors.last_name
+        return state.addEmployeeErrors.lastName
     },
     addEmployeeErrorsEmail(state)
     {
@@ -77,15 +77,15 @@ const getters = {
 
     updateEmployeeErrorsCompanyId(state)
     {
-        return state.updateEmployeeErrors.company_id
+        return state.updateEmployeeErrors.companyId
     },
     updateEmployeeErrorsFirstName(state)
     {
-        return state.updateEmployeeErrors.first_name
+        return state.updateEmployeeErrors.firstName
     },
     updateEmployeeErrorsLastName(state)
     {
-        return state.updateEmployeeErrors.last_name
+        return state.updateEmployeeErrors.lastName
     },
     updateEmployeeErrorsEmail(state)
     {
@@ -155,6 +155,7 @@ const actions = {
                 })
                 .catch((error) => {
                     ctx.commit('setIsLoad', false)
+                    ctx.commit('setAddEmployeeErrors', error.response.data.errors)
                     reject(error)
                 })
         })
@@ -175,6 +176,7 @@ const actions = {
                 })
                 .catch((error) => {
                     ctx.commit('setIsLoad', false)
+                    ctx.commit('setUpdateEmployeeErrors', error.response.data.errors)
                     reject(error)
                 })
         })

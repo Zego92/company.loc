@@ -2581,7 +2581,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2637,6 +2636,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.snackbarData.color = 'success';
 
         _this.$refs.form.reset();
+
+        _this.getAllEmployees({
+          page: _this.pagination.currentPage,
+          searchField: _this.searchField
+        });
+
+        _this.getAllCompanies({
+          page: _this.pagination.currentPage,
+          searchField: _this.searchField
+        });
 
         setTimeout(function () {
           _this.clearSnackbarData();
@@ -3437,7 +3446,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('employee', ['getOneEmployee', 'deleteEmployee'])), {}, {
     onClickCloseButton: function onClickCloseButton() {
       this.$router.push({
-        name: 'Companies'
+        name: 'Employees'
       });
     },
     clearSnackbarData: function clearSnackbarData() {
@@ -3543,6 +3552,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id'],
@@ -3565,7 +3584,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   components: {},
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('company', ['companies'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('employee', ['employee'])),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('company', ['companies'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('employee', ['employee', 'updateEmployeeErrorsCompanyId', 'updateEmployeeErrorsFirstName', 'updateEmployeeErrorsLastName', 'updateEmployeeErrorsEmail', 'updateEmployeeErrorsPhone'])),
   watch: {},
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('company', ['getAllCompanies'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('employee', ['getOneEmployee', 'updateEmployee'])), {}, {
     onClickUpdateEmployee: function onClickUpdateEmployee() {
@@ -6471,7 +6490,10 @@ var render = function() {
                                 [
                                   _c(
                                     "v-form",
-                                    { ref: "form" },
+                                    {
+                                      ref: "form",
+                                      attrs: { enctype: "multipart/form-data" }
+                                    },
                                     [
                                       _c(
                                         "v-col",
@@ -6819,7 +6841,7 @@ var render = function() {
             "v-col",
             {
               staticClass: "pa-2 pa-md-3",
-              attrs: { cols: "12", md: "6", lg: "3" }
+              attrs: { cols: "12", md: "6", lg: "6" }
             },
             [
               _c(
@@ -6867,7 +6889,7 @@ var render = function() {
             "v-col",
             {
               staticClass: "pa-2 pa-md-3",
-              attrs: { cols: "12", md: "6", lg: "3" }
+              attrs: { cols: "12", md: "6", lg: "6" }
             },
             [
               _c(
@@ -7133,7 +7155,6 @@ var render = function() {
                                           _vm._v(" "),
                                           _c("v-select", {
                                             attrs: {
-                                              "return-object": "",
                                               items: _vm.companies,
                                               "item-text": "name",
                                               "item-value": "id",
@@ -8290,7 +8311,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
-        { attrs: { cols: "10" } },
+        { attrs: { cols: "11" } },
         [
           _c(
             "v-list-item",
@@ -8325,7 +8346,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
-        { attrs: { cols: "2" } },
+        { attrs: { cols: "1" } },
         [
           _c(
             "v-list-item",
@@ -8603,7 +8624,7 @@ var render = function() {
                                 "h4",
                                 {
                                   staticClass:
-                                    "mb-0 text-md-body-1 text-sm-body-2 mt-3 text-no-wrap"
+                                    "mb-0 text-md-body-1 text-sm-body-2 mt-3"
                                 },
                                 [
                                   _vm._v(
@@ -8638,7 +8659,7 @@ var render = function() {
                               "p",
                               { staticClass: "mb-2 mt-2" },
                               [
-                                _c("v-icon", [_vm._v("mdi-email")]),
+                                _c("v-icon", [_vm._v("mdi-cellphone-iphone")]),
                                 _vm._v(" " + _vm._s(_vm.employee.phone))
                               ],
                               1
@@ -8833,11 +8854,13 @@ var render = function() {
               _vm._v(" "),
               _c("v-select", {
                 attrs: {
-                  "return-object": "",
                   items: _vm.companies,
                   "item-text": "name",
                   "item-value": "id",
+                  placeholder: _vm.employee.company.name,
+                  "error-messages": _vm.updateEmployeeErrorsCompanyId,
                   label: "Choose the Company",
+                  clearable: "",
                   required: ""
                 },
                 model: {
@@ -8859,9 +8882,11 @@ var render = function() {
               _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
+                  placeholder: _vm.employee.first_name,
                   label: "First Name",
                   type: "text",
                   counter: "",
+                  "error-messages": _vm.updateEmployeeErrorsFirstName,
                   dark: "",
                   clearable: "",
                   required: ""
@@ -8885,9 +8910,11 @@ var render = function() {
               _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
+                  placeholder: _vm.employee.last_name,
                   label: "Last Name",
                   type: "text",
                   counter: "",
+                  "error-messages": _vm.updateEmployeeErrorsLastName,
                   dark: "",
                   clearable: "",
                   required: ""
@@ -8911,9 +8938,11 @@ var render = function() {
               _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
+                  placeholder: _vm.employee.email,
                   label: "Email",
                   type: "email",
                   counter: "",
+                  "error-messages": _vm.updateEmployeeErrorsEmail,
                   dark: "",
                   clearable: "",
                   required: ""
@@ -8937,9 +8966,11 @@ var render = function() {
               _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
+                  placeholder: _vm.employee.phone,
                   label: "Phone",
                   type: "tel",
                   counter: "",
+                  "error-messages": _vm.updateEmployeeErrorsPhone,
                   dark: "",
                   clearable: "",
                   required: ""
@@ -9037,7 +9068,7 @@ var render = function() {
                     dark: "",
                     color: "primary",
                     icon: "",
-                    to: "/companies/" + _vm.id
+                    to: "/companies/" + _vm.employee.company.id
                   }
                 },
                 [_c("v-icon", [_vm._v("mdi-information-outline")])],
@@ -9177,7 +9208,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
-        { attrs: { cols: "10" } },
+        { attrs: { cols: "11" } },
         [
           _c(
             "v-list-item",
@@ -9214,7 +9245,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-col",
-        { attrs: { cols: "2" } },
+        { attrs: { cols: "1" } },
         [
           _c(
             "v-list-item",
@@ -70711,13 +70742,13 @@ var getters = {
     return state.loader;
   },
   addEmployeeErrorsCompanyId: function addEmployeeErrorsCompanyId(state) {
-    return state.addEmployeeErrors.company_id;
+    return state.addEmployeeErrors.companyId;
   },
   addEmployeeErrorsFirstName: function addEmployeeErrorsFirstName(state) {
-    return state.addEmployeeErrors.first_name;
+    return state.addEmployeeErrors.firstName;
   },
   addEmployeeErrorsLastName: function addEmployeeErrorsLastName(state) {
-    return state.addEmployeeErrors.last_name;
+    return state.addEmployeeErrors.lastName;
   },
   addEmployeeErrorsEmail: function addEmployeeErrorsEmail(state) {
     return state.addEmployeeErrors.email;
@@ -70726,13 +70757,13 @@ var getters = {
     return state.addEmployeeErrors.phone;
   },
   updateEmployeeErrorsCompanyId: function updateEmployeeErrorsCompanyId(state) {
-    return state.updateEmployeeErrors.company_id;
+    return state.updateEmployeeErrors.companyId;
   },
   updateEmployeeErrorsFirstName: function updateEmployeeErrorsFirstName(state) {
-    return state.updateEmployeeErrors.first_name;
+    return state.updateEmployeeErrors.firstName;
   },
   updateEmployeeErrorsLastName: function updateEmployeeErrorsLastName(state) {
-    return state.updateEmployeeErrors.last_name;
+    return state.updateEmployeeErrors.lastName;
   },
   updateEmployeeErrorsEmail: function updateEmployeeErrorsEmail(state) {
     return state.updateEmployeeErrors.email;
@@ -70821,6 +70852,7 @@ var actions = {
                   resolve(resp);
                 })["catch"](function (error) {
                   ctx.commit('setIsLoad', false);
+                  ctx.commit('setAddEmployeeErrors', error.response.data.errors);
                   reject(error);
                 });
               }));
@@ -70852,6 +70884,7 @@ var actions = {
                   resolve(resp);
                 })["catch"](function (error) {
                   ctx.commit('setIsLoad', false);
+                  ctx.commit('setUpdateEmployeeErrors', error.response.data.errors);
                   reject(error);
                 });
               }));

@@ -6,7 +6,7 @@
                 <v-btn color="white" text v-bind="attrs" @click="snackbarData.snackbar = false"><v-icon>mdi-close</v-icon></v-btn>
             </template>
         </v-snackbar>
-        <v-col cols="10">
+        <v-col cols="11">
             <v-list-item color="primary" class="text-decoration-none" :to="`/employees/` + id">
                 <v-list-item-avatar color="primary">
                     <span class="white--text headline">{{avatarText}}</span>
@@ -19,7 +19,7 @@
                 <v-list-item-action-text>{{email}}</v-list-item-action-text>
             </v-list-item>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="1">
             <v-list-item>
                 <v-dialog persistent v-model="dialog" width="500">
                     <template v-slot:activator="{ on, attrs }">

@@ -14,13 +14,13 @@
                             <v-avatar color="primary" size="50" class="float-left mr-3">
                                 <span class="white--text headline">{{avatarText}}</span>
                             </v-avatar>
-                            <h4 class="mb-0 text-md-body-1 text-sm-body-2 mt-3 text-no-wrap">{{employee.first_name}} {{employee.last_name}}</h4>
+                            <h4 class="mb-0 text-md-body-1 text-sm-body-2 mt-3">{{employee.first_name}} {{employee.last_name}}</h4>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col class="px-8 text-left pb-0">
                             <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{employee.email}}</p>
-                            <p class="mb-2 mt-2"> <v-icon>mdi-email</v-icon> {{employee.phone}}</p>
+                            <p class="mb-2 mt-2"> <v-icon>mdi-cellphone-iphone</v-icon> {{employee.phone}}</p>
                         </v-col>
                     </v-row>
                     <v-btn
@@ -105,7 +105,7 @@
             ]),
             onClickCloseButton()
             {
-                this.$router.push({name: 'Companies'})
+                this.$router.push({name: 'Employees'})
             },
             clearSnackbarData()
             {

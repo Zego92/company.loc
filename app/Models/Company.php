@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Company extends Model
 {
+    use Notifiable;
+
     protected $table = 'companies';
 
     protected $fillable = [
@@ -18,5 +21,10 @@ class Company extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
+    }
+
+    public function routeNotificationForMail()
+    {
+        return $this->email;
     }
 }

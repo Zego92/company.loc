@@ -34,7 +34,7 @@
                                     </v-btn>
                                 </template>
                                 <v-card>
-                                    <v-form ref="form">
+                                    <v-form ref="form" enctype="multipart/form-data">
                                         <v-col>
                                             <v-spacer></v-spacer>
                                             <v-text-field

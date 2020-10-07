@@ -6,7 +6,7 @@
                 <v-list-item-subtitle>{{employee.company.name}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action-text>
-                <v-btn text small dark color="primary" icon :to="'/companies/' + id">
+                <v-btn text small dark color="primary" icon :to="'/companies/' + employee.company.id">
                     <v-icon>mdi-information-outline</v-icon>
                 </v-btn>
             </v-list-item-action-text>

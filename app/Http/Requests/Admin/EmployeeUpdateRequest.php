@@ -24,9 +24,9 @@ class EmployeeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id' => 'integer',
-            'first_name' => 'string|max:50',
-            'last_name' => 'string|max:50',
+            'companyId' => 'integer',
+            'firstName' => 'string|max:50',
+            'lastName' => 'string|max:50',
             'email' => 'string|email|max:50|unique:employees',
             'phone' => 'string|max:50|unique:employees',
         ];

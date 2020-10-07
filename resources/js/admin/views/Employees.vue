@@ -38,7 +38,6 @@
                                         <v-col>
                                             <v-spacer></v-spacer>
                                             <v-select
-                                                return-object
                                                 :items="companies"
                                                 item-text="name"
                                                 item-value="id"
@@ -212,7 +211,16 @@
                     this.snackbarData.snackbar = true;
                     this.snackbarData.text = response.data.message;
                     this.snackbarData.color = 'success';
-                    this.$refs.form.reset()
+                    this.$refs.form.reset();
+                    this.getAllEmployees({
+                        page: this.pagination.currentPage,
+                        searchField: this.searchField
+                    })
+                    this.getAllCompanies({
+                        page: this.pagination.currentPage,
+                        searchField: this.searchField
+                    })
+
                     setTimeout(() => {
                         this.clearSnackbarData()
                     }, 2000)

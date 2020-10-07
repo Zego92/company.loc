@@ -24,9 +24,9 @@ class EmployeeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id' => 'required|integer',
-            'first_name' => 'required|string|max:50',
-            'last_name' => 'required|string|max:50',
+            'companyId' => 'required|integer',
+            'firstName' => 'required|string|max:50',
+            'lastName' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:employees',
             'phone' => 'required|string|max:50|unique:employees',
         ];

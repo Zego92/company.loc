@@ -43,6 +43,7 @@ class NewCompanyRegister extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->level('success')
                     ->line('New Company Notification')
                     ->line('The new company was add')
                     ->line('Company name is ' . $this->company->name);

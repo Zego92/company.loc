@@ -10,21 +10,25 @@
             <v-col>
                 <v-spacer></v-spacer>
                 <v-select
-                    return-object
                     :items="companies"
                     item-text="name"
                     item-value="id"
+                    :placeholder="employee.company.name"
                     v-model="employeeData.companyId"
+                    :error-messages="updateEmployeeErrorsCompanyId"
                     label="Choose the Company"
+                    clearable
                     required/>
             </v-col>
             <v-col>
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.firstName"
+                    :placeholder="employee.first_name"
                     label="First Name"
                     type="text"
                     counter
+                    :error-messages="updateEmployeeErrorsFirstName"
                     dark
                     clearable
                     required/>
@@ -33,9 +37,11 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.lastName"
+                    :placeholder="employee.last_name"
                     label="Last Name"
                     type="text"
                     counter
+                    :error-messages="updateEmployeeErrorsLastName"
                     dark
                     clearable
                     required/>
@@ -44,9 +50,11 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.email"
+                    :placeholder="employee.email"
                     label="Email"
                     type="email"
                     counter
+                    :error-messages="updateEmployeeErrorsEmail"
                     dark
                     clearable
                     required/>
@@ -55,9 +63,11 @@
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="employeeData.phone"
+                    :placeholder="employee.phone"
                     label="Phone"
                     type="tel"
                     counter
+                    :error-messages="updateEmployeeErrorsPhone"
                     dark
                     clearable
                     required/>
@@ -99,7 +109,12 @@
                 'companies'
             ]),
             ...mapGetters('employee', [
-                'employee'
+                'employee',
+                'updateEmployeeErrorsCompanyId',
+                'updateEmployeeErrorsFirstName',
+                'updateEmployeeErrorsLastName',
+                'updateEmployeeErrorsEmail',
+                'updateEmployeeErrorsPhone',
             ])
         },
         watch: {},
@@ -109,7 +124,8 @@
             ]),
             ...mapActions('employee', [
                 'getOneEmployee',
-                'updateEmployee'
+                'updateEmployee',
+
             ]),
             onClickUpdateEmployee()
             {
