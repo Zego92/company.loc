@@ -60,7 +60,7 @@ class CompanyController extends Controller
         $explode_1 = explode(';', $image);
         $explode_2 = explode('/', $explode_1[0]);
         $imageName = Str::random(12) . '.' . $explode_2[1];
-        Image::make($image)->resize(100, 100)->save(storage_path('/uploads/logo/' . $imageName), 50);
+        Image::make($image)->resize(100, 100)->save(public_path('/uploads/logo/' . $imageName), 50);
         $company = Company::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -113,17 +113,18 @@ class CompanyController extends Controller
         $company = Company::find($id);
         if (isset($request->logo)){
             $image = $request->logo;
-            File::delete(public_path() . '/uploads/logo/' . $company->logo);
+            File::delete(public_path('/uploads/logo/') . $company->logo);
             $explode_1 = explode(';', $image);
             $explode_2 = explode('/', $explode_1[0]);
             $imageName = Str::random(12) . '.' . $explode_2[1];
-            Image::make($image)->resize(100, 100)->save(storage_path('/uploads/logo/' . $imageName), 50);
+            Image::make($image)->resize(100, 100)->save(public_path('/uploads/logo/' . $imageName), 50);
         }
-        $company->name = $request->name ?? $company->name;
-        $company->email = $request->email ?? $company->email;
-        $company->logo = $imageName ?? $company->logo;
-        $company->website = $request->website ?? $company->website;
-        $company->save();
+        $company->update([
+            'name' => $request->name ?? $company->name,
+            'email' => $request->email ?? $company->email,
+            'logo' => $imageName ?? $company->logo,
+            'website' => $request->website ?? $company->website,
+        ]);
         $result['message'] = 'The raw has been update';
         return response()->json($result, 200);
     }
@@ -139,7 +140,7 @@ class CompanyController extends Controller
         $result['success'] = true;
         $company = Company::find($id);
         $company->delete();
-        File::delete(storage_path('/uploads/logo/' . $company->logo));
+        File::delete(public_path('/uploads/logo/' . $company->logo));
         $result['message'] = 'The raw has been delete';
         return response()->json($result, 200);
     }

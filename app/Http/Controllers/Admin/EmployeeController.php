@@ -104,11 +104,11 @@ class EmployeeController extends Controller
         $result['success'] = true;
         $employee = Employee::find($id);
         $employee->update([
-            'company_id' => $request->companyId,
-            'first_name' => $request->firstName,
-            'last_name' => $request->lastName,
-            'email' => $request->email,
-            'phone' => $request->phone,
+            'company_id' => $request->companyId ?? $employee->company_id,
+            'first_name' => $request->firstName ?? $employee->first_name,
+            'last_name' => $request->lastName ?? $employee->last_name,
+            'email' => $request->email ?? $employee->email,
+            'phone' => $request->phone ?? $employee->phone,
         ]);
         $result['message'] = 'The raw has been update';
         return response()->json($result, 200);

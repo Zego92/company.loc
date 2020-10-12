@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminLoginRequest;
+use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login (Request $request) {
+    public function login (AdminLoginRequest $request) {
         $result['success'] = false;
         $user = User::where('email', $request->email)->first();
         if ($user) {
