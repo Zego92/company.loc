@@ -6,7 +6,7 @@
                 <v-btn color="white" text v-bind="attrs" @click="snackbarData.snackbar = false"><v-icon>mdi-close</v-icon></v-btn>
             </template>
         </v-snackbar>
-        <v-form class="px-4" ref="form">
+        <v-form class="px-4" ref="form" v-model="form">
             <v-text-field
                 v-model="companyData.name"
                 :placeholder="company.name"
@@ -78,6 +78,7 @@
                     text: '',
                     color: '',
                 },
+                form: ''
             }
         },
         components: {},
@@ -87,7 +88,11 @@
                 'loader'
             ])
         },
-        watch: {},
+        watch: {
+            form: function () {
+                this.$refs.form.reset()
+            }
+        },
         methods: {
             ...mapActions('company', [
                 'updateCompany',
@@ -121,6 +126,15 @@
                         this.clearSnackbarData()
                     }, 2000)
                 })
+            },
+            clearSnackbarData()
+            {
+                this.snackbarData = {
+                    multiLine: true,
+                    snackbar: false,
+                    text: '',
+                    color: '',
+                }
             },
             pickFile () {
                 this.$refs.image.click ()

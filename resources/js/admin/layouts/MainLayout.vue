@@ -44,6 +44,7 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     export default {
         props: [],
         name: "MainLayout",
@@ -74,9 +75,13 @@
         computed: {},
         watch: {},
         methods: {
+            ...mapActions('auth', [
+                'logout'
+            ]),
             onClickLogout()
             {
-
+                this.logout()
+                this.$route.push({name: 'Login'})
             }
         },
         mounted() {

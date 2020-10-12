@@ -6,7 +6,7 @@
                 <v-btn color="white" text v-bind="attrs" @click="snackbarData.snackbar = false"><v-icon>mdi-close</v-icon></v-btn>
             </template>
         </v-snackbar>
-        <v-form ref="form">
+        <v-form ref="form" v-model="form">
             <v-col>
                 <v-spacer></v-spacer>
                 <v-select
@@ -100,6 +100,7 @@
                     text: '',
                     color: '',
                 },
+                form: ''
 
             }
         },
@@ -117,7 +118,11 @@
                 'updateEmployeeErrorsPhone',
             ])
         },
-        watch: {},
+        watch: {
+            form: function () {
+                this.$refs.form.reset()
+            }
+        },
         methods: {
             ...mapActions('company', [
                 'getAllCompanies'
@@ -154,7 +159,15 @@
                         this.clearSnackbarData()
                     }, 2000)
                 })
-            }
+            },
+            clearSnackbarData()
+            {
+                this.snackbarData = {
+                    snackbar: false,
+                    text: '',
+                    color: ''
+                }
+            },
         },
         mounted() {
             this.getAllCompanies({
